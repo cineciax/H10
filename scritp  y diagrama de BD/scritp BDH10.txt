@@ -1,0 +1,92 @@
+create table proyecto (
+
+id_proy int not null,
+nom_proy varchar(60),
+fecha_pro date,
+proy_encarcago varchar(50),
+proy_ubicacion varchar(250),
+PRIMARY KEY (id_proy)
+);
+
+
+create  table  partidas(
+id_partida int primary key  not null,
+desc_part float,
+
+cuadrilla int
+
+)
+
+create table proyectoxpartida(
+
+id_proy int  not null,
+id_partida int   not null
+)
+
+
+alter table proyectoxpartida
+add foreign key (id_proy)
+references proyecto(id_proy)
+
+
+alter table proyectoxpartida
+add foreign key (id_partida)
+references partidas(id_partida)
+
+
+
+create  table insumos(
+id_insumo  int not  null,
+nom_insumo  varchar(60),
+
+
+id_categoria  int not null,
+id_unidades int not null,
+cantidad   int ,
+costo_unidad float,
+precio_parcial float
+
+)
+
+alter table insumos add constraint pk_insumos primary key (id_insumo)
+alter table insumos add constraint u_insumos unique (id_insumo,id_categoria,id_unidades)
+
+create table partidaxinsumo (
+id_partida int not null,
+
+id_insumo int not null
+
+)
+
+alter table partidaxinsumo
+add foreign key (id_partida)
+references partidas(id_partida)
+
+alter table partidaxinsumo
+add constraint fk_pxi foreign key (id_insumo)
+references insumos(id_insumo)
+
+
+
+create  table  categoria(
+
+id_categoria  int  primary key not  null,
+nom_categoria varchar(60)
+)
+
+
+create table unidades(
+
+id_unidades  int primary key not null,
+nombre varchar(60)
+
+)
+
+alter table insumos
+add foreign key (id_categoria)
+references categoria(id_categoria)
+
+
+alter table insumos
+add foreign key (id_unidades)
+references unidades(id_unidades)
